@@ -1,0 +1,127 @@
+div.resulttableholder {
+  border: rgba(0, 0, 0, .4) 1px inset;
+  max-height: 80vh;
+  overflow: scroll;
+}
+
+div.resulttableholder table {
+  table-layout: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: nowrap;
+  font-family: arial, verdana, sans-serif;
+  border: 2px rgba(0, 0, 0, .5) solid;
+  border-collapse: collapse;
+}
+
+div.resulttableholder table tr.filtered {
+  display: none;
+}
+
+div.resulttableholder table tr td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px rgba(0, 0, 0, .2) solid;
+}
+
+div.resulttableholder table tr th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px rgba(0, 0, 0, .5) solid;
+}
+
+div.resultactionbar {
+  text-align: right;
+  padding-bottom: .3em;
+  font-variant: small-caps;
+  font-family: sans-serif;
+}
+
+div.resultactionbar a {
+  border: #999 1px outset;
+  font-size: 70%;
+  padding: .2em .4em;
+  border-radius: .2em;
+  margin: .1em;
+  cursor: pointer;
+  background: #EEE;
+}
+
+div.resultactionbar span.res {
+  font-variant: none;
+	border: 1px #000 solid;
+	border-radius: .5em;
+	padding: .1em .5em;
+	background: #333;
+	color:#EEE;
+
+}
+
+
+div.resultactionbar div.menu {
+  margin-top: .5em;
+  padding: .25em;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+img.resulttableimage {
+  max-width: 100%;
+  display: block;
+}
+
+img.resulttableimage.thumbnail {
+  max-width: 2em;
+  display: block;
+}
+
+div.ressidebar {
+  font-variant: small-caps;
+  font-family: sans-serif;
+  position: absolute;
+  width: 15em;
+  right: 0;
+  top: 0em;
+  bottom: 0em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(192, 192, 192, 1) 100%);
+  border-left: #000 1px solid;
+  overflow-y: auto;
+  z-index: 9999999;
+}
+
+div.ressidebar h1 {
+  text-align: center;
+  margin-top: .1em;
+  font-size: 100%;
+}
+
+div.ressidebar a.action {
+  border: #999 1px outset;
+  padding: .4em .4em;
+  border-radius: .2em;
+  margin: 1em;
+  cursor: pointer;
+  background: #EEE;
+  display: block;
+  text-align: center;
+}
+
+div.ressidebar label {
+  font-variant: none;
+}
+
+
+div.ressidebar a.item {
+  display: block;
+  border: #999 1px outset;
+  font-size: 70%;
+  padding: .2em .4em;
+  border-radius: .2em;
+  margin: .1em;
+  cursor: pointer;
+  background: #EEE;
+  font-variant: none;
+	white-space: nowrap;
+ overflow: hidden;
+}
