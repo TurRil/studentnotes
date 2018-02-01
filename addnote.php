@@ -45,7 +45,7 @@
   <div class="form-group" id="extratimeblock">
     <label for="type" >Extra time allocation</label>
     <select class="form-control" id="extratime" name="extratime">
-      <option  value=-1 disabled <?php echo ($et>0)?"selected":""?> hidden>Please select extra time</option>
+      <option  value=-1 disabled <?php echo ($et<0)?"selected":""?> hidden>Please select extra time</option>
       <option value=0 <?php echo ($et==0)?"selected":""?>>0 minutes per hour</option>
       <option value=10 <?php echo ($et==10)?"selected":""?>>10 minutes per hour</option>
       <option value=15<?php echo ($et==15)?"selected":""?>>15 minutes per hour</option>
@@ -240,8 +240,10 @@ function validateForm()
       if ($('#daterangestart').val()=="")  setValidationText('daterangeblock','Please enter a start date.');
     break;
     case 2:
-      if ($('#conflicttimestart').val()>$('#conflicttimeend').val()) setValidationText('conflictblock','Start time must be before end time.');
-      if (($('#conflicttimestart').val()<0)||($('#conflicttimeend').val()<0)) setValidationText('conflictblock','Please select the time range of the conflict.');
+      var ts=Number($('#conflicttimestart').val());
+      var te=Number($('#conflicttimeend').val());
+      if (ts>=te) setValidationText('conflictblock','Start time must be before end time.');
+      if ((ts<=0)||(te<=0)) setValidationText('conflictblock','Please select the time range of the conflict.');
       if ($('#conflictdate').val()=="")  setValidationText('conflictblock','Please select a date for the conflict.');
       break;
     case 3:

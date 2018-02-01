@@ -1,5 +1,6 @@
 <?php
-require_once "config.php";
+require_once "../config.php";
+
 
 use \Tsugi\Core\LTIX;
 
@@ -18,6 +19,8 @@ if (isset($_GET['modalEditID'])) $editID=$_GET['modalEditID'];
 $_SESSION['editID']=$editID;
 if (isset($_GET['deleteID'])) $deleteID=$_GET['deleteID'];
 $_SESSION['deleteID']=$deleteID;
+
+
 
 if ($editID) {
   require 'addnote_handler.php';
@@ -53,8 +56,9 @@ $OUTPUT->flashMessages();
 
 
 <?php
- 
- if ($editID) {
+ if (!$USER->instructor) {
+   require 'blockstudent.php';
+ } else if ($editID) {
    require 'editnote.php';
  } else if ($deleteID) {
    require 'deletenote.php';
