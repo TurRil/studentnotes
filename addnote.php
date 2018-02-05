@@ -32,13 +32,13 @@
 <form method="post">
   <input name="studentnoteid" type="hidden" value=<?php echo $editID; ?> >
   <div class="form-group">
-    <label for="type">Student note type</label>
+    <label for="type">Add student note</label>
     <select class="form-control" id="notetype" name="notetype" <?php echo $editID?"disabled":""; ?> >
       <option value=-1 <?php echo ($nt<0)?"selected":""?> hidden>Please select note type</option>
-      <option value=0 <?php echo ($nt==0)?"selected":""?>>Extra time</option>
       <option value=1 <?php echo ($nt==1)?"selected":""?>>Excused absence</option>
-      <option value=2 <?php echo ($nt==2)?"selected":""?>>Test conflict</option>
+      <option value=0 <?php echo ($nt==0)?"selected":""?>>Extra time</option>
       <option value=3 <?php echo ($nt==3)?"selected":""?>>Meeting</option>
+      <option value=2 <?php echo ($nt==2)?"selected":""?>>Test conflict</option>
     </select>
   </div>
   <?php require "studentsearch.php" ?>

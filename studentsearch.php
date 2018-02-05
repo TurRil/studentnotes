@@ -1,6 +1,6 @@
   <div id="studentblock">
   <div class="form-group">
-    <label for="student">Student</label>
+    <label for="student">Student name or ID</label>
     <div class="input-group">
       <input type="hidden" class="form-control" id=studentid name=studentid>
       <input type="text" class="form-control" placeholder="Search" id=studentsearch>
@@ -14,6 +14,7 @@
       </div>
     </div>
   </div>
+  <div id=studentselectmessage class='info'>Multiple results found, please select correct student.</div>
   <table id="studenttable" class="table table-bordered table-condensed table-striped">
     <thead>
     <tr  class="info"><th class=hidden>id</th><th class=col-md-2>Student ID</th><th>Student Name</th></tr>
@@ -27,7 +28,7 @@
        echo("<tr><td class=hidden>{$students[$i]["user_id"]}</td><td><a href=# onclick='selectStudent({$i})''>{$students[$i]["user_key"]}</a></td><td><a href=# onclick='selectStudent({$i})'>{$students[$i]["displayname"]}</a></td></tr>");
    ?>
  </tbody></table>
- <div id=studentsearcherror class='alert alert-danger'>match info</div>
+ <div id=studentsearcherror class='alert alert-danger'></div>
 </div>
 <script>
 
@@ -68,6 +69,7 @@ function showStudentFilter()
      $('#studentsearchcancel').toggle(true);
      $('#studentsearchcancel').click(clearStudentFilter);
      $('#studentsearcherror').toggle(false);
+     $('#studentselectmessage').toggle(false);
   } else {
      $('#studentid').val('');
      var search=$('#studentsearch').val().toLowerCase();
@@ -86,10 +88,14 @@ function showStudentFilter()
           count+=1;
        }
      });
-     if (count==0)
+     if (count==0) {
        $('#studentsearcherror').text("No match for '"+search+"' in student names or IDs enrolled in this course. Please try again.").toggle(true);
+       $('#studenttable').toggle(false);
+     }
      else
        $('#studentsearcherror').toggle(false);
+     $('#studentselectmessage').toggle((count>1)&&(search!=''));
+
    }
 }
 
