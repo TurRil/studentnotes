@@ -53,32 +53,36 @@
     </select>
   </div>
 
-  <div class="form-group" id="absenceblock">
-    <label>Type of absence</label>
-    <select class="form-control" id="absencetype"  name="absencetype">
-      <option  value=-1 disabled <?php echo ($at<0)?"selected?":""?> hidden>Select type</option>
-      <option value=0 <?php echo ($at==0)?"selected":""?>>Leave of Absence</option>
-      <option value=1 <?php echo ($at==1)?"selected":""?>>Religious</option>
-      <option value=2 <?php echo ($at==2)?"selected":""?>>Medical</option>
-      <option value=3 <?php echo ($at==3)?"selected":""?>>Compassionate</option>
-      <option value=4 <?php echo ($at==4)?"selected":""?>>Sports and activities</option>
-      <option value=5 <?php echo ($at==6)?"selected":""?>>Test clash</option>
-      <option value=6 <?php echo ($at==6)?"selected":""?>>Other</option>
-    </select>
-    <label >Reason</label>
-    <input type="text" class="form-control" id="absencereason" name="absencereason" value="<?php echo $notetext;?>">
+  <div id="absenceblock">
+    <div class="form-group">
+      <label>Type of absence</label>
+      <select class="form-control" id="absencetype"  name="absencetype">
+        <option value=-1 disabled <?php echo ($at<0)?"selected":""?> hidden>Select type of absence</option>
+        <option value=3 <?php echo ($at==3)?"selected":""?>>Compassionate</option>
+        <option value=0 <?php echo ($at==0)?"selected":""?>>Leave of Absence</option>
+        <option value=2 <?php echo ($at==2)?"selected":""?>>Medical</option>
+        <option value=6 <?php echo ($at==6)?"selected":""?>>Other</option>
+        <option value=1 <?php echo ($at==1)?"selected":""?>>Religious</option>
+        <option value=4 <?php echo ($at==4)?"selected":""?>>Sports and activities</option>
+        <option value=5 <?php echo ($at==5)?"selected":""?>>Test clash</option>
+      </select>
+    </div>
+    <div class="form-group" id="absencereasonblock">
+      <label >Please specify reason for absence</label>
+      <input type="text" class="form-control" id="absencereason" name="absencereason" value="<?php echo $notetext;?>">
+    </div>
   </div>
 
 
   <div class="form-group" id="daterangeblock">
-    <label >Date range</label>
+    <label id="daterangelabel">Date range</label>
     <div class="row">
       <div class="col-sm-2">
-        <input type="text" class="form-control datepick" id=daterangestart name=daterangestart value="<?php echo $psd;?>">
+        <input type="text" class="form-control datepick" id=daterangestart name=daterangestart value="<?php echo $psd;?>" placeholder="Start date">
       </div>
       <label class="col-sm-2 col-form-label" >to</label>
       <div class="col-sm-2">
-        <input type="text" class="form-control datepick" id=daterangeend name=daterangeend value="<?php echo $ped;?>">
+        <input type="text" class="form-control datepick" id=daterangeend name=daterangeend value="<?php echo $ped;?>" placeholder="End date">
       </div>
     </div>
   </div>
@@ -86,7 +90,7 @@
   <div id="conflictblock">
     <div class="form-group" >
       <label>Date of conflict</label>
-      <input type="test" class="form-control datepick" id="conflictdate" name="conflictdate" value="<?php echo $psd;?>">
+      <input type="test" class="form-control datepick" id="conflictdate" name="conflictdate" value="<?php echo $psd;?>" placeholder="Select date">
     </div>
     <div class="form-group" >
       <label>Conflicting time period</label>
@@ -156,10 +160,10 @@
   <div id="meetingblock">
     <div class="form-group">
       <label>Date of meeting</label>
-      <input type="text" class="form-control datepick" id="meetingdate" name="meetingdate" value="<?php echo $psd;?>">
+      <input type="text" class="form-control datepick" id="meetingdate" name="meetingdate" value="<?php echo $psd;?>"  placeholder="Select date">
     </div>
     <div class="form-group">
-      <label for="type">Reason for meeting</label>
+      <label for="type">Reason for meeting (optional)</label>
       <textarea type="text" class="form-control" id="meetingtext" name="meetingtext" rows=5><?php echo $notetext;?></textarea>
     </div>
     <div class="form-check">
@@ -170,7 +174,7 @@
     </div>
   </div>
 
-  <input type="submit" name="save" value="Save Note" class="btn btn-primary btn-lg"  id="submitbutton" onclick="return validateForm()">
+  <input type="submit" name="save" value="Save changes" class="btn btn-primary btn-lg"  id="submitbutton" onclick="return validateForm()">
   <input type="submit" name="cancel" value="Cancel" class="btn btn-lg"  id="cancelbutton">
 </form>
 
@@ -179,7 +183,9 @@
 function init()
 {
   showControlsByType();
+  showAbsenceByType();
   $('#notetype').change(showControlsByType);
+  $('#absencetype').change(showAbsenceByType);
   $('.datepick').datepicker({
     dateFormat: "d MM yy",
     changeMonthx: true
@@ -197,9 +203,26 @@ function showControlsByType()
   $('#extratimeblock').toggle(type==0);
   $('#specialneedsblock').toggle(type==0);
   $('#daterangeblock').toggle((type==0)||(type==1));
+  $('#daterangelabel').text((type==0)?"Date range":"Dates absent");
   $('#absenceblock').toggle(type==1);
   $('#conflictblock').toggle(type==2);
   $('#meetingblock').toggle(type==3);
+}
+
+
+function validateSwitch()
+{
+    if ($('#notetype').val()<0) return true;
+    alert("Please save or cancel current note before changing tabs.");
+    return false;
+}
+
+
+
+function showAbsenceByType()
+{
+  var type=$('#absencetype').val();
+  $('#absencereasonblock').toggle(type==6);
 }
 
 
@@ -229,13 +252,13 @@ function validateForm()
   switch (nt) {
     case 0:
       if ($('#extratime').val()<0)  setValidationText('extratimeblock','Please select an extra time allowance.');
-      if ($('#daterangestart').val()>$('#daterangeend').val())  setValidationText('daterangeblock','End date must be before start date');
+      if ($('#daterangestart').val()>$('#daterangeend').val())  setValidationText('daterangeblock','End date must be after start date');
       if ($('#daterangeend').val()=="")  setValidationText('daterangeblock','Please enter an end date.');
       if ($('#daterangestart').val()=="")  setValidationText('daterangeblock','Please enter a start date.');
       break;
     case 1:
-      if ($('#absencetype').val()<0)  setValidationText('absenceblock','Please select a type of absence');
-      if ($('#daterangestart').val()>$('#daterangeend').val())  setValidationText('daterangeblock','End date must be before start date');
+      if ($('#absencetype').val()==null)  setValidationText('absenceblock','Please select a type of absence');
+      if ($('#daterangestart').val()>$('#daterangeend').val())  setValidationText('daterangeblock','End date must be after start date');
       if ($('#daterangeend').val()=="")  setValidationText('daterangeblock','Please enter an end date.');
       if ($('#daterangestart').val()=="")  setValidationText('daterangeblock','Please enter a start date.');
     break;
@@ -249,7 +272,6 @@ function validateForm()
     case 3:
       if ($('#meetingdate').val()=="")  setValidationText('meetingblock','Please select the date of the meeting.');
       break;
-
   }
   if (validationsFailed) return false;
   //enable note ttype select so that it posts

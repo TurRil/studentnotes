@@ -11,6 +11,7 @@
     <?php
        if (isset($_SESSION["studentlistid"]))
          require "outputstudentnotes.php";
+       unset($_SESSION["studentlistid"]);
      ?>
 
 <script src="resulttable/resulttable.js"></script>

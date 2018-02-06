@@ -43,17 +43,16 @@ if ($editID) {
 // Start of the output
 $OUTPUT->header();
 $OUTPUT->bodyStart();
-
-$OUTPUT->flashMessages();
-
 ?>
 <ul class="nav nav-tabs">
-  <li class=<?php echo ($tab==0)?'"active"':'"normal"';?>><a href=".?tab=0">Add note</a></li>
-  <li class=<?php echo ($tab==2)?'"active"':'"normal"';?>><a href=".?tab=2">Generate list</a></li>
-  <li class=<?php echo ($tab==1)?'"active"':'"normal"';?>><a href=".?tab=1">Find student record</a></li>
+  <li class=<?php echo ($tab==0)?'"active"':'"normal"';?>><a href=".?tab=0" onclick="return validateSwitch()">Add note</a></li>
+  <li class=<?php echo ($tab==2)?'"active"':'"normal"';?>><a href=".?tab=2" onclick="return validateSwitch()">Generate list</a></li>
+  <li class=<?php echo ($tab==1)?'"active"':'"normal"';?>><a href=".?tab=1" onclick="return validateSwitch()">Find student record</a></li>
 </ul>
 <br>
-
+<?php
+$OUTPUT->flashMessages();
+?>
 
 <?php
  if (!$USER->instructor) {
@@ -75,11 +74,19 @@ $OUTPUT->flashMessages();
          break;
     }
   }
+?>
 
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <div style="opacity: .8; font-size: 50%;">student notes module (v0.9) developed by elementalsystems for UCT</div>
+<?php
 $OUTPUT->footerStart();
 ?>
 <script>
 init();
+
 </script>
 <?php
 $OUTPUT->footerEnd();

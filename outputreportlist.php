@@ -21,15 +21,15 @@
   function outputRow($note) {
     global $USER;
     $nt=$_SESSION["rlisttype"];
-    $ps=date('d/m/Y', strtotime($note['period_start']));
-    $pe=date('d/m/Y', strtotime($note['period_end']));
+    $ps=date('d M Y', strtotime($note['period_start']));
+    $pe=date('d M Y', strtotime($note['period_end']));
     $psh=date('H:00', strtotime($note['period_start']));
     $peh=date('H:00', strtotime($note['period_end']));
 
-    $but="<a href='.?modalEditID=".$note['student_note_id']."'>edit</button><br/>
-          <a href='.?deleteID=".$note['student_note_id']."'>delete</button>";
-    $crdate=date('d/m/Y', strtotime($note['created_at']));
-    $moddate=date('d/m/Y', strtotime($note['updated_at']));
+    $but="<a href='.?modalEditID=".$note['student_note_id']."'>Edit&nbsp;&nbsp;&nbsp;&nbsp;</button><br/>
+          <a href='.?deleteID=".$note['student_note_id']."'>Delete</button>";
+    $crdate=date('d M Y', strtotime($note['created_at']));
+    $moddate=date('d M Y', strtotime($note['updated_at']));
 
     $meetbut=$but;
     $notetext=$note['note_text'];
@@ -40,14 +40,15 @@
     }
 
     switch ($nt) {
-      case 0: echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$note['extra_time']} min/hour</td><td>{$ps} - {$pe}</td><td>{$note['note_text']}<td>{$note['creatorname']}<br/>{$crdate}</td><td>{$note['creatorname']}<br/>{$moddate}</td></tr>";
+      case 0: echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$note['extra_time']} min/hour</td><td>{$ps} - {$pe}</td><td class=wraptext>{$note['note_text']}<td>{$note['creatorname']} <br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
               return;
       case 1: $abreason=describeAbsenceType($note['absence_type']);
-              echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$abreason} {$note['note_text']}</td><td>{$ps} - {$pe}</td><td>{$note['creatorname']}<br/>{$crdate}</td><td>{$note['creatorname']}<br/>{$moddate}</td></tr>";
+              $abtext=(($note['absence_type']==6)?(": ".$note['note_text']):"");
+              echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td class=wraptext>{$abreason}{$abtext}</td><td>{$ps} - {$pe}</td><td>{$note['creatorname']} <br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
               return;
-      case 2: echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$ps}</td><td>{$psh} - {$peh}</td><td>{$note['note_text']}</td><td>{$note['creatorname']}<br/>{$crdate}</td><td>{$note['creatorname']}<br/>{$moddate}</td></tr>";
+      case 2: echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$ps}</td><td>{$psh} - {$peh}</td><td class=wraptext>{$note['note_text']}</td><td>{$note['creatorname']}<br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
               return;
-      case 3: echo "<tr><td>{$meetbut}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$ps}</td><td>{$notetext}</td><td>{$note['creatorname']}<br/>{$crdate}</td><td>{$note['creatorname']}<br/>{$moddate}</td></tr>";
+      case 3: echo "<tr><td>{$meetbut}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$ps}</td><td class=wraptext>{$notetext}</td><td>{$note['creatorname']} <br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
               return;
     }
   }
@@ -71,7 +72,7 @@
 ?>
  <div class="resulttable">
 
-    <table class='table table-bordered table-condensed table-striped'>
+    <table class='table table-bordered table-condensed table-striped wraptext'>
       <thead><?php outputHeader()?></thead>
       <tbody>
 

@@ -25,6 +25,10 @@ div.resulttableholder table tr td {
   border: 1px rgba(0, 0, 0, .2) solid;
 }
 
+div.resulttableholder table tr td.wraptext {
+  white-space: pre-line;
+}
+
 div.resulttableholder table tr th {
   white-space: nowrap;
   overflow: hidden;

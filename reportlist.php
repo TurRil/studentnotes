@@ -5,7 +5,7 @@ if (isset($_SESSION["rlisttype"])) { //no set up look for the defaults
   $ps=date('d F Y', strtotime($_SESSION["rliststart"]));
   $pe=date('d F Y', strtotime($_SESSION["rlistend"]));
 } else {
-  $nt=0;
+  $nt=-1;
   $ps=date('d F Y', strtotime(date('Y-01-01')));
   $pe=date('d F Y', strtotime(date('Y-12-31')));
 }
@@ -13,8 +13,9 @@ if (isset($_SESSION["rlisttype"])) { //no set up look for the defaults
 
 <form method="post">
   <div class="form-group">
-    <label for="type" >Note Type</label>
+    <label for="type" >Generate list of notes</label>
     <select class="form-control" id="notetype" name="notetype" placeholder="Select Note Type">
+      <option  value=-1 disabled <?php echo ($nt<0)?"selected":""?> hidden>Please select note type</option>
       <option value=0 <?php echo ($nt==0)?"selected":"";?>>Extra Time</option>
       <option value=1 <?php echo ($nt==1)?"selected":"";?>>Excused Absence</option>
       <option value=2 <?php echo ($nt==2)?"selected":"";?>>Test Conflict</option>
@@ -41,6 +42,7 @@ if (isset($_SESSION["rlisttype"])) { //no set up look for the defaults
 <?php
   if (isset($_SESSION["rlisttype"]))
     require "outputreportlist.php";
+  unset($_SESSION["rlisttype"]);
 ?>
 
 <script src="resulttable/resulttable.js"></script>

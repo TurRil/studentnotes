@@ -74,12 +74,14 @@ function initResultTable(el) {
 
   function copyVisibleTable() {
     var nt=$(tableEl).clone()[0];
+    nt.style.width = 'auto';
     //first remove any explicit line breaks - thats not helpoing us with a grid!
     $(nt).find('br').remove();
     //also links aren't great for us
     $(nt).find('a').remove();
     //now remove any filtered rows from the table
     $(nt).find('tr.filtered').remove();
+
     return nt;
   }
 
@@ -103,20 +105,20 @@ function initResultTable(el) {
     });
   $('<a>as PDF</a>').appendTo(expm)
     .click(function() {
-      var pdf = new jsPDF('p', 'pt', 'letter');
+      var pdf = new jsPDF('l', 'pt');
        source = $('<div>').append(copyVisibleTable())[0];
        specialElementHandlers = {  };
        margins = {
-           top: 80,
-           bottom: 60,
-           left: 10,
-           width: 700
+           top: 1,
+           bottom: 1,
+           left: 1,
+           right: 1
        };
        pdf.fromHTML(
          source, // HTML string or DOM elem ref.
          margins.left, // x coord
          margins.top, { // y coord
-           'width': margins.width, // max width of content on PDF
+           //'width': margins.width, // max width of content on PDF
            'elementHandlers': specialElementHandlers
          },
          function (dispose) {
@@ -301,14 +303,13 @@ function analyseTableContent(el, tbl) {
       tot += length;
     }
     el.tbl.colTypes[i]=maxType;
-    console.log("maxtype:"+maxType);
     var avg = tot / tbl.rows.length;
-    if (max > 20) max = 20;
+    if (max > 30) max = 30;
     header.cells[i].style.width = (max * hfact) + 'ch';
-
     tblwidth += max;
   }
   tbl.style.width = (tblwidth * hfact) + 'ch';
+
 
   //go through the every cell in the table looking for images
   for (var i = 0; i < tbl.rows.length; i += 1)

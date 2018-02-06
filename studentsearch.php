@@ -8,9 +8,6 @@
         <button class="btn btn-default" id='studentsearchgo' type='button'>
           <i class="glyphicon glyphicon-search">Search</i>
         </button>
-        <button class="btn btn-default" id='studentsearchcancel' type='button'>
-          <i class="glyphicon glyphicon-remove">Clear</i>
-        </button>
       </div>
     </div>
   </div>
@@ -52,8 +49,8 @@ var studentAutoSubmit=false;
 
 function initStudentSearch(auto)
 {
-  $('#studentsearchgo').click(showStudentFilter);
-  $('#studentsearchcancel').click(clearStudentFilter);
+  $('#studentsearchgo').click(function() {if (selectedStudentID) clearStudentFilter(); else showStudentFilter();});
+  $('#studentsearch').keydown(function() { if (selectedStudentID) clearStudentFilter();}); //type anything in and clear the setting
   showStudentFilter();
   if (auto) studentAutoSubmit=true;
 }
@@ -63,20 +60,13 @@ function showStudentFilter()
    if (selectedStudentID) {
      $('#studentid').val(selectedStudentID);
      $('#studentsearch').val(selectedStudentRef+" - "+selectedStudentName);
-     $('#studentsearch').attr('readonly', true);
      $('#studenttable').toggle(false);
-     $('#studentsearchgo').toggle(false);
-     $('#studentsearchcancel').toggle(true);
-     $('#studentsearchcancel').click(clearStudentFilter);
-     $('#studentsearcherror').toggle(false);
      $('#studentselectmessage').toggle(false);
+     $('#studentsearcherror').toggle(false);
   } else {
      $('#studentid').val('');
      var search=$('#studentsearch').val().toLowerCase();
      $('#studenttable').toggle(search!='');
-     $('#studentsearchgo').toggle(true);
-     $('#studentsearch').attr('readonly', false);
-     $('#studentsearchcancel').toggle(false);
      var count=0;
      $('#studenttable tbody tr').each(function (index) {
         var row=$(this);
