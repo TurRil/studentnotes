@@ -14,7 +14,7 @@
   <div id=studentselectmessage class='info'>Multiple results found, please select correct student.</div>
   <table id="studenttable" class="table table-bordered table-condensed table-striped">
     <thead>
-    <tr  class="info"><th class=hidden>id</th><th class=col-md-2>Student ID</th><th>Student Name</th></tr>
+    <tr  class="info"><th class=hidden>id</th><th>Student Name</th></tr>
     </thead>
     <tbody>
   <?php
@@ -22,7 +22,7 @@
     $students=$PDOX->allRowsDie("SELECT lti_user.user_id,displayname,user_key FROM lti_user,lti_membership
         where lti_user.user_id=lti_membership.user_id and context_id={$CONTEXT->id} order by displayname");
     for ($i=0;$i<sizeof($students);$i++)
-       echo("<tr><td class=hidden>{$students[$i]["user_id"]}</td><td><a href=# onclick='selectStudent({$i})''>{$students[$i]["user_key"]}</a></td><td><a href=# onclick='selectStudent({$i})'>{$students[$i]["displayname"]}</a></td></tr>");
+       echo("<tr><td class=hidden>{$students[$i]["user_id"]}</td><td><a href=# onclick='selectStudent({$i})'>{$students[$i]["displayname"]}</a></td></tr>");
    ?>
  </tbody></table>
  <div id=studentsearcherror class='alert alert-danger'></div>
@@ -59,7 +59,7 @@ function showStudentFilter()
 {
    if (selectedStudentID) {
      $('#studentid').val(selectedStudentID);
-     $('#studentsearch').val(selectedStudentRef+" - "+selectedStudentName);
+     $('#studentsearch').val(selectedStudentName);
      $('#studenttable').toggle(false);
      $('#studentselectmessage').toggle(false);
      $('#studentsearcherror').toggle(false);
@@ -79,7 +79,7 @@ function showStudentFilter()
        }
      });
      if (count==0) {
-       $('#studentsearcherror').text("No match for '"+search+"' in student names or IDs enrolled in this course. Please try again.").toggle(true);
+       $('#studentsearcherror').text("No match for '"+search+"' in student names enrolled in this course. Please try again.").toggle(true);
        $('#studenttable').toggle(false);
      }
      else

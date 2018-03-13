@@ -80,7 +80,7 @@ $OUTPUT->flashMessages();
   <br/>
   <br/>
   <br/>
-  <div style="opacity: .8; font-size: 50%;">student notes module (v0.9) developed by elementalsystems for UCT</div>
+  <div style="opacity: .8; font-size: 50%;">student notes module (v1.0) developed by elementalsystems for UCT</div>
 <?php
 $OUTPUT->footerStart();
 ?>

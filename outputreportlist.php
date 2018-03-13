@@ -4,13 +4,13 @@
   function outputHeader() {
     $nt=$_SESSION["rlisttype"];
     switch ($nt) {
-      case 0: echo "<tr class=info><th>Actions</th><th>Student name</th><th>Student ID</th><th>Allocation</th><th>Valid Dates</th><th>Special Needs</th><th>Created</th><th>Last Modified</th></tr>";
+      case 0: echo "<tr class=info><th>Actions</th><th>Student name</th><th>Allocation</th><th>Valid Dates</th><th>Special Needs</th><th>Created</th><th>Last Modified</th></tr>";
               return;
-      case 1: echo "<tr class=info><th>Actions</th><th>Student name</th><th>Student ID</th><th>Reason for absence</th><th>Dates absent</th><th>Created</th><th>Last modified</th></tr>";
+      case 1: echo "<tr class=info><th>Actions</th><th>Student name</th><th>Reason for absence</th><th>Dates absent</th><th>Created</th><th>Last modified</th></tr>";
               return;
-      case 2: echo "<tr class=info><th>Actions</th><th>Student name</th><th>Student ID</th><th>Date</th><th>Time period</th><th>Reason</th><th>Created</th><th>Last modified</th></tr>";
+      case 2: echo "<tr class=info><th>Actions</th><th>Student name</th><th>Date</th><th>Time period</th><th>Reason</th><th>Created</th><th>Last modified</th></tr>";
               return;
-      case 3: echo "<tr class=info><th>Actions</th><th>Student name</th><th>Student ID</th><th>Date</th><th>Reason</th><th>Created</th><th>Last modified</th></tr>";
+      case 3: echo "<tr class=info><th>Actions</th><th>Student name</th><th>Date</th><th>Reason</th><th>Created</th><th>Last modified</th></tr>";
               return;
     }
 
@@ -40,15 +40,15 @@
     }
 
     switch ($nt) {
-      case 0: echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$note['extra_time']} min/hour</td><td>{$ps} - {$pe}</td><td class=wraptext>{$note['note_text']}<td>{$note['creatorname']} <br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
+      case 0: echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['extra_time']} min/hour</td><td>{$ps} - {$pe}</td><td class=wraptext>{$note['note_text']}<td>{$note['creatorname']} <br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
               return;
       case 1: $abreason=describeAbsenceType($note['absence_type']);
               $abtext=(($note['absence_type']==6)?(": ".$note['note_text']):"");
-              echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td class=wraptext>{$abreason}{$abtext}</td><td>{$ps} - {$pe}</td><td>{$note['creatorname']} <br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
+              echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td class=wraptext>{$abreason}{$abtext}</td><td>{$ps} - {$pe}</td><td>{$note['creatorname']} <br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
               return;
-      case 2: echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$ps}</td><td>{$psh} - {$peh}</td><td class=wraptext>{$note['note_text']}</td><td>{$note['creatorname']}<br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
+      case 2: echo "<tr><td>{$but}</td><td>{$note['displayname']}</td><td>{$ps}</td><td>{$psh} - {$peh}</td><td class=wraptext>{$note['note_text']}</td><td>{$note['creatorname']}<br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
               return;
-      case 3: echo "<tr><td>{$meetbut}</td><td>{$note['displayname']}</td><td>{$note['user_key']}</td><td>{$ps}</td><td class=wraptext>{$notetext}</td><td>{$note['creatorname']} <br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
+      case 3: echo "<tr><td>{$meetbut}</td><td>{$note['displayname']}</td><td>{$ps}</td><td class=wraptext>{$notetext}</td><td>{$note['creatorname']} <br/>{$crdate}</td><td>{$note['creatorname']} <br/>{$moddate}</td></tr>";
               return;
     }
   }
