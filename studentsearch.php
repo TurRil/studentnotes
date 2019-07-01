@@ -11,24 +11,23 @@
       </div>
     </div>
   </div>
-  <div id=studentselectmessage class='info'>Multiple results found, please select correct student.</div>
-  <table id="studenttable" class="table table-bordered table-condensed table-striped">
+  <div id=studentselectmessage class='info' style="display:none">Multiple results found, please select correct student.</div>
+  <table id="studenttable" class="table table-bordered table-condensed table-striped" style="display:none">
     <thead>
     <tr  class="info"><th class=hidden>id</th><th>Student Name</th></tr>
     </thead>
     <tbody>
   <?php
     //retreive the list of students  $CONTEXT
-    $students=$PDOX->allRowsDie("SELECT lti_user.user_id,displayname,user_key FROM lti_user,lti_membership
+    $students=$PDOX->allRowsDie("SELECT lti_user.user_id,lti_user.displayname, JSON_UNQUOTE(ifnull(JSON_EXTRACT(lti_user.`json`,'$.sourcedId'), LOWER(SUBSTRING(lti_user.email, 1, LOCATE('@', lti_user.email) - 1)))) as eid, user_key FROM lti_user,lti_membership
         where lti_user.user_id=lti_membership.user_id and context_id={$CONTEXT->id} order by displayname");
     for ($i=0;$i<sizeof($students);$i++)
-       echo("<tr><td class=hidden>{$students[$i]["user_id"]}</td><td><a href=# onclick='selectStudent({$i})'>{$students[$i]["displayname"]}</a></td></tr>");
+       echo("<tr><td class=hidden>{$students[$i]["user_id"]}</td><td><a href=# data-rid='{$i}' data-uid='{$students[$i]["user_id"]}' data-eid='{$students[$i]["eid"]}'>{$students[$i]["displayname"]} ({$students[$i]["eid"]})</a></td></tr>");
    ?>
  </tbody></table>
- <div id=studentsearcherror class='alert alert-danger'></div>
+ <div id=studentsearcherror class='alert alert-danger' style="display: none"></div>
 </div>
 <script>
-
 
 var selectedStudentID='';
 var selectedStudentRef='';
@@ -64,29 +63,26 @@ function showStudentFilter()
      $('#studentselectmessage').toggle(false);
      $('#studentsearcherror').toggle(false);
   } else {
-     $('#studentid').val('');
-     var search=$('#studentsearch').val().toLowerCase();
-     $('#studenttable').toggle(search!='');
-     var count=0;
-     $('#studenttable tbody tr').each(function (index) {
-        var row=$(this);
-        var content=row.text();
-        if (content.toLowerCase().indexOf(search)===-1)
-          row.hide();
-       else {
-          row.show();
-          count+=1;
-       }
-     });
-     if (count==0) {
-       $('#studentsearcherror').text("No match for '"+search+"' in student names enrolled in this course. Please try again.").toggle(true);
-       $('#studenttable').toggle(false);
-     }
-     else
-       $('#studentsearcherror').toggle(false);
-     $('#studentselectmessage').toggle((count>1)&&(search!=''));
+      $('#studentid').val('');
+      var search=$('#studentsearch').val().toLowerCase();
+      $('#studenttable').toggle(search!='');
 
-   }
+      var r = $('#studenttable tbody tr a').filter(function(i, el){
+          var a = $(el);
+          return (a.text().toLowerCase().includes(search) || a.data('eid').toLowerCase().includes(search));
+      });
+
+      $('#studenttable tbody tr a').parent().parent().hide();
+      if (r.length > 0) {
+        r.parent().parent().show();
+        $('#studentsearcherror').toggle(false);
+      } else {
+        $('#studentsearcherror').text("No match for '"+search+"' in student enrolled in this course. Please try again.").toggle(true);
+        $('#studenttable').toggle(false);
+      }
+
+    $('#studentselectmessage').toggle((r.length>1)&&(search!=''));
+  }
 }
 
 function clearStudentFilter()
