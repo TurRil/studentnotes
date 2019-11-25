@@ -59,7 +59,7 @@ if($oldDate < $cDate) {
    Settings::linkSet('json', $entries);
 
   // Handle the Roster
-  $handledRoster = LTIX::populateRoster();
+  $handledRoster = LTIX::populateRoster(false, true);
 }
 ?>
 
